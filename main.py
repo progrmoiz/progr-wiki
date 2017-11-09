@@ -1,5 +1,16 @@
 import webapp2
 
+from google.appengine.ext import ndb
+
+from model import WikiData
+
+# data = []
+# for i in range(0, 100):
+#     data[i] = WikiData()
+#     data[i].subject = 'title ' + str(i)
+#     data[i].content = 'body ' + str(i)
+#     data[i].history = [data[i].content]
+#     data[i].put()
 
 class BaseHandler(webapp2.RequestHandler):
 
@@ -23,7 +34,8 @@ class HistoryPage(BaseHandler):
 
 
 class WikiPage(BaseHandler):
-    pass
+    def get(self, url):
+        self.write(url)
 
 
 PAGE_RE = r'/([a-zA-Z0-9_-]+)*'
