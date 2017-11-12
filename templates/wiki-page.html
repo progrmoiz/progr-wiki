@@ -1,0 +1,35 @@
+{% extends "content.html" %}
+
+{% block content %}
+<section class="hero is-black is-bold is-medium">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">{{subject}}</h1>
+      <h2 class="subtitle">From Wikipedia, the free encyclopedia</h2>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-two-thirds">
+        <article class="section">
+          <div class="content">
+            <p>{{content}}</p>
+          </div>
+        </article>
+      </div>
+      <div class="column">
+        <div class="infobox">
+        <figure>
+          <img alt="HTML Reference logo" src="images/800px-401_Gridlock.jpg">
+          <figcaption>
+            Modern cars and trucks driving on an expressway in Ontario.
+          </figcaption>
+        </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

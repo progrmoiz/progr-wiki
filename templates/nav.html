@@ -1,0 +1,48 @@
+{% block nav %}
+<nav class="navbar is-black" role="navigation" aria-label="main navigation">
+<div class="container">
+<div class="navbar-brand">
+  <button class="button navbar-burger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</div>
+<div class="navbar-menu">
+  <div class="navbar-start">
+    <div class="navbar-item field">
+      <div class="control has-icons-left has-icons-right">
+        <input class="input is-normal" placeholder="Search Wiki..." type="text"> <span class="icon is-left"><i class="material-icons">search</i></span>
+      </div>
+    </div>
+  </div> <!-- END .navbar-start -->
+
+  <div class="navbar-end">
+  {% if user %}
+  <div class="navbar-item">
+    <div class="field is-grouped">
+      <p class="control"><a class="button is-black" href="/_edit"><span class="icon"><i class="material-icons">add</i></span> <span>New Wiki</span></a></p>
+    </div>
+  </div>
+  <div class="navbar-item has-dropdown is-hoverable">
+    <a class="avator navbar-link"><img alt="#" src="images/avator.png"></a>
+    <div class="navbar-dropdown is-boxed is-right">
+      <span class="navbar-item"><span><span class="userlabel">Signed in as</span><br>
+      <strong>{{user.name}}</strong></span></span>
+      <hr class="navbar-divider">
+      <a class="navbar-item" href="/logout?{{redirect_query}}">Logout</a>
+    </div>
+  </div>
+  {% else %}
+  <div class="navbar-item">
+    <div class="field is-grouped">
+      <p class="control"><a class="button is-black" href="/login?{{redirect_query}}"><span class="icon"><i class="material-icons">account_circle</i></span> <span>Sign in</span></a></p>
+      <p class="control"><a class="button is-dark is-outlined is-inverted" href="/register?{{redirect_query}}"><span>Get started</span></a></p>
+    </div>
+  </div>
+  {% endif %}
+  </div> <!-- END .navbar-end -->
+</div> <!-- END .nav-menu -->
+</div> <!-- END .container -->
+</nav> <!-- END nav -->
+{% endblock %}

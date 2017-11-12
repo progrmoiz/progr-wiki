@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block basecontent %}
+<section class="hero is-black is-fullheight">
+  <!-- Hero content: will be in the middle -->
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <div class="column is-4 is-offset-4">
+        <h1 class="title">Join Progrwiki.</h1>
+        <h2 class="subtitle">Create an Account</h2>
+        <div class="box has-text-left">
+          <form method="post" novalidate>
+
+            <div class="field">
+              <label class="label" for="name">Username</label>
+              <div class="control has-icons-left">
+                <input class="input {{'is-danger' if error_username}}" placeholder="e.g AlexSmith" type="text" id="name" name="name" value="{{name}}">
+                <span class="icon is-small is-left">
+                  <i class="material-icons">person</i>
+                </span>
+              </div>
+              <p class="help is-danger">{{error_username}}</p>
+            </div>
+
+            <div class="field">
+              <label class="label" for="email">Email (optional)</label>
+              <div class="control has-icons-left">
+                <input class="input {{'is-danger' if error_email}}" placeholder="e.g alex.smith@progrwiki.com" type="email" id="email" name="email" value="{{email}}">
+                <span class="icon is-small is-left">
+                  <i class="material-icons">email</i>
+                </span>
+              </div>
+              <p class="help is-danger">{{error_email}}</p>
+            </div>
+
+            <div class="field">
+              <label class="label" for="password">Password</label>
+              <div class="control has-icons-left">
+                <input class="input {{'is-danger' if error_password}}" placeholder="e.g. 1234abcd$!@#" type="password" id="password" name="password" value="{{password}}">
+                <span class="icon is-small is-left">
+                  <i class="material-icons">lock_outline</i>
+                </span>
+              </div>
+              <p class="help is-danger">{{error_password}}</p>
+            </div>
+
+            <div class="field">
+              <label class="label" for="verify">Verify</label>
+              <div class="control has-icons-left">
+                <input class="input {{'is-danger' if error_verify}}" placeholder="e.g. 1234abcd$!@#" type="password" id="verify" name="verify">
+                <span class="icon is-small is-left">
+                  <i class="material-icons">lock_outline</i>
+                </span>
+              </div>
+              <p class="help is-danger">{{error_verify}}</p>
+            </div>
+
+            <div class="field">
+              <p class="has-text-danger">{{error}}</p>
+            </div>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox"><input type="checkbox"> Remember Me</label>
+              </div>
+            </div>
+            <div class="control">
+              <input type="hidden" name="redirect_to" value="{{path}}">
+              <button class="button is-success">Sign up</button>
+            </div>
+          </form>
+        </div>
+        <p class="has-text-grey">
+            Already have an account? <a class="has-text-success" href="/login{{'?redirect_to=' + path if path}}">Sign in.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  const btn = document.querySelector('button');
+  btn.addEventListener('click', function() {
+    this.classList.add('is-loading')
+  })
+</script>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% block drawer %}
+<div class="drawer">
+  <div class="brand">
+    <a href="/"><img alt="ProgrWiki Logo" height="80" src="./images/logo.jpg" width="80"></a>
+  </div><!-- END .brand -->
+  <nav class="secondary-menu">
+    <ul class="menu">
+      <li class="menu-item">
+        <a href="/{{path if path else '#'}}"><span class="icon is-large"><i class="material-icons">details</i></span></a>
+      </li>
+      <li class="menu-item">
+        <a href="#"><span class="icon is-large"><i class="material-icons">link</i></span></a>
+      </li>
+      <li class="menu-item">
+        <a href="{{'/_edit/' + path if path else '#'}}"><span class="icon is-large"><i class="material-icons">edit</i></span></a>
+      </li>
+      <li class="menu-item">
+        <a href="{{'/_history/' + path if path else '#'}}"><span class="icon is-large"><i class="material-icons">history</i></span></a>
+      </li>
+    </ul>
+  </nav><!-- END .secondary-menu -->
+</div><!-- END .drawer -->
+{% endblock %}

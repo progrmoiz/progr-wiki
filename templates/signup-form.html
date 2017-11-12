@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Signup Form</title>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <form method="post">
+    <table>
+      <tr>
+        <td><label for="name">Name: </label></td>
+        <td><input type="text" id="name" name="name" value="{{name}}"></td>
+        <td class="error">{{error_username}}</td>
+      </tr>
+      <tr>
+        <td><label for="email">Email (optional): </label></td>
+        <td><input type="email" id="email" name="email" value="{{email}}"></td>
+        <td class="error">{{error_email}}</td>
+      </tr>
+      <tr>
+        <td><label for="password">Password: </label></td>
+        <td><input type="password" id="password" name="password" value="{{password}}"></td>
+        <td class="error">{{error_password}}</td>
+      </tr>
+      <tr>
+        <td><label for="verify">Verify Password: </label></td>
+        <td><input type="password" id="verify" name="verify" value=""></td>
+        <td class="error">{{error_verify}}</td>
+      </tr>
+      <tr>
+        <td colspan="3"><input type="submit" value="Register"></td>
+      </tr>
+    </table>
+  </form>
+</body>
+</html>
