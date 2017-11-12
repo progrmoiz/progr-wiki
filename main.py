@@ -56,6 +56,7 @@ class BaseHandler(webapp2.RequestHandler):
         self.response.write(*a, **kw)
 
     def render_str(self, template, extension='.html', **params):
+        params['title'] = 'Progrwiki'
         params['user'] = self.user
         return render_str(template + extension, **params)
 
