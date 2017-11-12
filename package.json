@@ -1,0 +1,52 @@
+{
+  "name": "progr-wiki",
+  "version": "1.0.0",
+  "description": "A sample wiki for practice",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "gulp clean"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://progrmoiz@bitbucket.org/progrmoiz/progr-wiki.git"
+  },
+  "keywords": [
+    "app",
+    "app-engine",
+    "backend",
+    "frontend"
+  ],
+  "author": "Abdul Moiz <progrmoiz@gmail.com>",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/progrmoiz/progr-wiki#readme",
+  "dependencies": {
+    "bulma": "^0.6.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "browser-sync": "^2.18.13",
+    "del": "^3.0.0",
+    "eslint": "^4.11.0",
+    "eslint-config-google": "^0.9.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-babel": "^7.0.0",
+    "gulp-cache": "^1.0.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-eslint": "^4.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-imagemin": "^3.4.0",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-newer": "^1.3.0",
+    "gulp-notify": "^3.0.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-size": "^2.1.0",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8"
+  }
+}
