@@ -44,7 +44,8 @@ class User(ndb.Model):
     @classmethod
     def register(cls, name, pw, email=None):
         pw_hash = make_pw_hash(name, pw)
-        return User(name=name,
+        return User(parent=user_key(),
+                    name=name,
                     pw_hash=pw_hash,
                     email=email)
 
