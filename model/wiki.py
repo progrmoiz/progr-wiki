@@ -1,21 +1,47 @@
 from google.appengine.ext import ndb
 
+from user import User
+
 
 def wiki_key(name='default'):
     return ndb.Key('wikis', name)
 
 
 class Wiki(ndb.Model):
-    subject = ndb.StringProperty()
+    """Wiki datastore
+
+    subject vs url:
+    subject has a seperator of space while url has underscore (_)
+    """
+    subject = ndb.StringProperty(required=True)
+    url = ndb.StringProperty(required=True)
     content = ndb.TextProperty()
     created = ndb.DateTimeProperty(auto_now_add=True)
     last_modified = ndb.DateTimeProperty(auto_now=True)
+    contributors = ndb.StructuredProperty(User, repeated=True)
 
     @classmethod
     def by_id(cls, id):
         return Wiki.get_by_id(id, parent=wiki_key())
 
     @classmethod
-    def by_subject(cls, subject):
-        w = Wiki.query(Wiki.subject == subject).get()
+    def by_path(cls, path):
+        w = Wiki.query(Wiki.url == path).get()
         return w
+
+    @classmethod
+    def create_wiki(cls, subject, content, contributor):
+        url = subject.replace(' ', '_')
+        return Wiki(parent=wiki_key(),
+                    subject=subject,
+                    url=url,
+                    content=content,
+                    contributors=[contributor])
+
+    def update_wiki(self, subject, content, contributor):
+        url = subject.replace(' ', '_')
+        self.url = url
+        self.subject = subject
+        self.content = content
+        if contributor not in self.contributors:
+            self.contributors.append(contributor)
