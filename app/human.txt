@@ -1,0 +1,18 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+  Moiz -- Programmer, All -- twitter/#
+
+# THANKS
+
+  Moiz
+
+# TECHNOLOGY COLOPHON
+
+  BACKEND: APPENGINE, JINJA, WEBAPP2
+  FRONTEND: BULMA
+
+  TOOLS: NPM, GULP, GIT
+  LANGUAGES: HTML5, CSS3, JAVASCRIPT, PYTHON
