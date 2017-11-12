@@ -9,6 +9,64 @@ libraries:
   version: latest
 
 handlers:
+- url: /favicon\.ico
+  static_files: dist/favicon.ico
+  upload: dist/favicon\.ico
+
+- url: /robots\.txt
+  static_files: dist/robots.txt
+  upload: dist/robots\.txt
+
+- url: /human\.txt
+  static_files: dist/human.txt
+  upload: dist/human\.txt
+
+- url: /styles
+  static_dir: dist/styles
+
+- url: /scripts
+  static_dir: dist/scripts
+
+# fonts
+- url: /(.*\.(woff|eot|ttf))
+  static_files: dist/fonts/\1
+  expiration: 1d
+  upload: dist/fonts/(.*\.(woff|eot|ttf))
+
+# image files
+- url: /images/(.*\.(bmp|gif|ico|jpeg|jpg|png))
+  static_files: dist/images/\1
+  upload: dist/images/(.*\.(bmp|gif|ico|jpeg|jpg|png))
+
+- url: /web/manifest.json
+  static_files: dist/manifest.json
+  expiration: 1d
+  upload: dist/manifest.json
+
 - url: /.*
   script: main.app
 
+skip_files:
+- ^CONTRIBUTING\.md$
+- ^README\.md$
+- ^TRANSLATION\.md$
+- ^gcloud-client-secret\.json.*
+- ^gulpfile\.js$
+- ^package\.json$
+- ^gulp-tasks/.*
+- ^node_modules/.*
+- ^scratch/.*
+- ^src/data/.*
+- ^src/templates/.*
+- ^src/tests/.*
+- ^tools/.*
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.DS_Store$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?.*\.psd$
+- ^(.*/)?.*\.pxm$
+- ^(.*/)?.*\.pyc$
+- ^(.*/)?.*\.sh$
+- ^(.*/)?\..*$
