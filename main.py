@@ -251,11 +251,11 @@ class EditPage(BaseHandler):
             if wiki:
                 subject = wiki.subject
                 content = wiki.content
-                btntext = 'Edit Wiki'
             else:
                 subject = url.replace('_', ' ') if url else ''
                 content = None
-                btntext = 'Create Wiki'
+
+            btntext = 'Save'
 
             # if user access _edit page with no path
             # then set path to '' instead of 'None'
