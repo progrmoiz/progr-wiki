@@ -1,0 +1,40 @@
+{% extends "content.html" %}
+
+{% block content %}
+<section class="is-light">
+  <!-- Hero content: will be in the middle -->
+  <div class="hero-body">
+    <div class="container">
+      <div class="column is-7">
+          <form method="post">
+            <div class="field">
+              <label class="label" for="subject">Subject</label>
+              <div class="control">
+                <input class="input {{'is-success' if subject}}" id="subject" name="subject" placeholder="Wiki Subject" value="{{subject}}" type="text" value="{{name}}" autocomplete="off" pattern="^([a-zA-Z0-9()_ -]+)*$" {{'readonly' if subject}}>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="content">Content</label>
+              <div class="control">
+                <textarea class="textarea" rows="10" id="content" name="content">{{content if content}}</textarea>
+              </div>
+            </div>
+            <div class="field">
+              <p class="has-text-danger">{{error}}</p>
+            </div>
+            <div class="control">
+              <input type="hidden" name="path" value="{{path}}">
+              <button class="button is-success">{{btntext}}</button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  const btn = document.querySelector('button');
+  btn.addEventListener('click', function() {
+    this.classList.add('is-loading')
+  })
+</script>
+{% endblock %}
