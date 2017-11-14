@@ -1,0 +1,53 @@
+{% extends "content.html" %}
+
+{% block content %}
+<style>
+  td:first-child {
+    text-align: center;
+  }
+  td:nth-child(2) {
+    width: 20%;
+  }
+  td:nth-child(3) {
+    width: 100%;
+  }
+  .table {
+    font-size: 14px;
+  }
+</style>
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">{{subject}}</h1>
+    </div>
+  </div>
+</section>
+<section class="section">
+<div class="container">
+<table class="table">
+  <thead>
+    <tr>
+      <th>Revision</th>
+      <th>Date</th>
+      <th>Content</th>
+      <th>Contributor</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for (i, wiki) in history %}
+      <tr>
+        <td>{{i+1}}</td>
+        <td>{{wiki.last_modified.strftime("%H:%M, %d %B %Y")}}</td>
+        <td>{{wiki.content[:100]}}</td>
+        <td>{{wiki.last_contributor.name}}</td>
+        <td><a href="/{{wiki.url}}?v={{i+1}}">view</a></td>
+        <td><a href="/_edit/{{wiki.url}}?v={{i+1}}">edit</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+</section>
+{% endblock %}
