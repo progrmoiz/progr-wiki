@@ -9,6 +9,11 @@
     </div>
   </div>
 </section>
+{% if version %}
+  <div class="notification is-danger">
+  This is an old revision of this page, as edited by <a href="/#">{{last_contributor.name}}</a> at {{last_modified.strftime("%H:%M, %d %B %Y")}}. The present address (URL) is a permanent link to this revision, which may differ significantly from the <a href="{{path}}"><strong>current revision</strong></a>.
+  </div>
+{% endif %}
 <section class="section">
   <div class="container">
     <div class="columns">
