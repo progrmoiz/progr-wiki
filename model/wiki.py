@@ -1,3 +1,4 @@
+from datetime import datetime
 from google.appengine.ext import ndb
 
 from user import User
@@ -17,7 +18,9 @@ class Wiki(ndb.Model):
     url = ndb.StringProperty(required=True)
     content = ndb.TextProperty()
     created = ndb.DateTimeProperty(auto_now_add=True)
-    last_modified = ndb.DateTimeProperty(auto_now=True)
+
+    # update last_modified value manually
+    last_modified = ndb.DateTimeProperty(auto_now_add=True)
     last_contributor = ndb.StructuredProperty(User)
 
     @classmethod
@@ -44,3 +47,4 @@ class Wiki(ndb.Model):
         self.subject = subject
         self.content = content
         self.last_contributor = contributor
+        self.last_modified = datetime.now()
