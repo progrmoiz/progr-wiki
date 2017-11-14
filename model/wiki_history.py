@@ -11,6 +11,8 @@ class WikiHistory(ndb.Model):
     """WikiHistory datastore
 
     A place where recent wiki stores
+    all WikiHistory instances has wikis and all wiki.last_modified will be
+    same because they are just instances
     """
     url = ndb.StringProperty(required=True)
     history = ndb.StructuredProperty(Wiki, repeated=True)
