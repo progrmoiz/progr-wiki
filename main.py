@@ -13,6 +13,7 @@ import jinja2
 
 from model.user import User
 from model.wiki import Wiki
+from model.wiki_history import WikiHistory
 
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -255,9 +256,12 @@ class EditPage(BaseHandler):
                           btntext=btntext,
                           path=path)
 
-            self.render('edit-form', **params)
+            self.render('edit', **params)
         else:
-            self.redirect('/login?redirect_to=/_edit/' + url)
+            if url:
+                self.redirect('/login?redirect_to=/_edit/' + url)
+            else:
+                self.redirect('/login?redirect_to=/_edit/')
 
     def post(self, url):
         content = self.request.get('content')
@@ -275,9 +279,17 @@ class EditPage(BaseHandler):
         if wiki:
             wiki.update_wiki(subject, content, self.user)
             wiki.put()
+            wiki_history = WikiHistory.by_path(wiki.url)
+            wiki_history.add_wiki_history(wiki)
+            wiki_history.put()
+            print(wiki_history.url)
+            for wiki in wiki_history.history:
+                print(wiki.last_contributor)
         else:
             wiki = Wiki.create_wiki(subject, content, self.user)
             wiki.put()
+            wiki_history = WikiHistory.create_wiki_history(wiki)
+            wiki_history.put()
 
         time.sleep(1)
         self.redirect('/' + path)
@@ -292,14 +304,30 @@ class HistoryPage(BaseHandler):
 class WikiPage(BaseHandler):
 
     def get(self, url):
-        wiki = Wiki.by_path(url)
+        version = self.request.get('v')
 
+        wiki = Wiki.by_path(url)
         # the wiki exist
         if wiki:
+            wiki_history = WikiHistory.by_path(wiki.url)
+
+            # ?v=n
+            # changing versions
+            if version:
+                version = int(version)
+                if version > 0 and version <= len(wiki_history.history):
+                    version -= 1
+                    wiki = wiki_history.get_wiki(version)
+                else:
+                    print('not valid')
+
+            # print(wiki.last_contributor)
+            # print(wiki.contributors)
             subject = wiki.subject
             content = wiki.content
             path = wiki.url
-            contributors = wiki.contributors
+            last_contributor = wiki.last_contributor
+            # contributors = 'wiki.contributors'
 
             redirect_query = urllib.urlencode({'redirect_to': path})
 
@@ -307,7 +335,7 @@ class WikiPage(BaseHandler):
                           content=content,
                           path=path,
                           redirect_query=redirect_query,
-                          contributor=contributors)
+                          last_contributor=last_contributor)
             self.render('wiki-page', **params)
         else:
             self.redirect('/_edit/' + url)
