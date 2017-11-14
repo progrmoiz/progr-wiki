@@ -18,7 +18,7 @@ class Wiki(ndb.Model):
     content = ndb.TextProperty()
     created = ndb.DateTimeProperty(auto_now_add=True)
     last_modified = ndb.DateTimeProperty(auto_now=True)
-    contributors = ndb.StructuredProperty(User, repeated=True)
+    last_contributor = ndb.StructuredProperty(User)
 
     @classmethod
     def by_id(cls, id):
@@ -36,12 +36,11 @@ class Wiki(ndb.Model):
                     subject=subject,
                     url=url,
                     content=content,
-                    contributors=[contributor])
+                    last_contributor=contributor)
 
     def update_wiki(self, subject, content, contributor):
         url = subject.replace(' ', '_')
         self.url = url
         self.subject = subject
         self.content = content
-        if contributor not in self.contributors:
-            self.contributors.append(contributor)
+        self.last_contributor = contributor
