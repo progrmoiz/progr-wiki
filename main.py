@@ -220,7 +220,7 @@ class Login(BaseHandler):
         if u:
             time.sleep(1)
             self.login(u)
-            self.redirect('/' + self.redirect_to)
+            self.redirect(self.redirect_to)
         else:
             msg = 'Invalid login'
             self.render('login', error=msg)
@@ -244,11 +244,25 @@ def valid_path(path):
 class EditPage(BaseHandler):
 
     def get(self, url):
+        version = self.request.get('v')
+
         # if user is not logged in redirect to login page
         # if post is already exist add content and subject to template
         if self.user:
             wiki = Wiki.by_path(url)
             if wiki:
+                wiki_history = WikiHistory.by_path(wiki.url)
+
+                # ?v=n
+                # changing versions
+                if version:
+                    version = int(version)
+                    if version > 0 and version <= len(wiki_history.history):
+                        version -= 1
+                        wiki = wiki_history.get_wiki(version)
+                    else:
+                        print('not valid')
+
                 subject = wiki.subject
                 content = wiki.content
             else:
@@ -309,7 +323,12 @@ class EditPage(BaseHandler):
 # TODO: IMplemnet _history page
 # TODO: /path?v=n history
 class HistoryPage(BaseHandler):
-    pass
+    def get(self, url):
+        wiki = Wiki.by_path(url)
+        wiki_history = WikiHistory.by_path(wiki.url)
+        history = list(enumerate(wiki_history.history))
+
+        self.render('history', subject=wiki.subject, history=reversed(history))
 
 
 class WikiPage(BaseHandler):
@@ -337,6 +356,7 @@ class WikiPage(BaseHandler):
             subject = wiki.subject
             content = wiki.content
             path = wiki.url
+            last_modified = wiki.last_modified
             last_contributor = wiki.last_contributor
             # contributors = 'wiki.contributors'
 
@@ -346,7 +366,9 @@ class WikiPage(BaseHandler):
                           content=content,
                           path=path,
                           redirect_query=redirect_query,
-                          last_contributor=last_contributor)
+                          last_modified=last_modified,
+                          last_contributor=last_contributor,
+                          version=version)
             self.render('wiki-page', **params)
         else:
             self.redirect('/_edit/' + url)
