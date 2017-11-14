@@ -101,9 +101,20 @@ class BaseHandler(webapp2.RequestHandler):
         # if url ends with .json set selfat to json else html
 
 
+def generate():
+    a = ['progrmoiz', 'alexsmith', 'uniquesamad', 'demo']
+    for username in a:
+        u = User.by_name(username)
+        if not u:
+            u = User.register(username, username,
+                              '%s@progrwiki.com' % username)
+            u.put()
+
+
 class MainPage(BaseHandler):
 
     def get(self):
+        generate()
         self.response.headers['Content-Type'] = 'text/plain'
         self.write(self.user)
 
