@@ -5,6 +5,7 @@ import hashlib
 import json
 import time
 import urllib
+import logging
 
 from abc import ABCMeta, abstractmethod
 
@@ -15,6 +16,10 @@ from model.user import User
 from model.wiki import Wiki
 from model.wiki_history import WikiHistory
 
+
+PATHS = {
+    'redirect':  'redirect_to'
+}
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 JINJA_ENV = jinja2.Environment(
@@ -115,6 +120,7 @@ class MainPage(BaseHandler):
 
     def get(self):
         generate()
+        print("HELLO")
         self.response.headers['Content-Type'] = 'text/plain'
         self.write(self.user)
 
@@ -276,7 +282,8 @@ class EditPage(BaseHandler):
             # else normally url
             path = url if url else ''
 
-            params = dict(subject=subject,
+            params = dict(wiki=wiki,
+                          subject=subject,
                           content=content,
                           btntext=btntext,
                           path=path)
@@ -353,22 +360,23 @@ class WikiPage(BaseHandler):
 
             # print(wiki.last_contributor)
             # print(wiki.contributors)
-            subject = wiki.subject
-            content = wiki.content
-            path = wiki.url
-            last_modified = wiki.last_modified
-            last_contributor = wiki.last_contributor
+            # TODO: remove this code
+            # subject = wiki.subject
+            # content = wiki.content
+            # path = wiki.url
+            # last_modified = wiki.last_modified
+            # last_contributor = wiki.last_contributor
             # contributors = 'wiki.contributors'
 
-            redirect_query = urllib.urlencode({'redirect_to': path})
+            redirect = urllib.urlencode({PATHS['redirect']: wiki.url})
 
-            params = dict(subject=subject,
-                          content=content,
-                          path=path,
-                          redirect_query=redirect_query,
-                          last_modified=last_modified,
-                          last_contributor=last_contributor,
+            logging.info(redirect)
+
+            params = dict(wiki=wiki,
+                          path=wiki.url,
+                          redirect=redirect,
                           version=version)
+
             self.render('wiki-page', **params)
         else:
             self.redirect('/_edit/' + url)

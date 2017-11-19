@@ -4,14 +4,14 @@
 <section class="hero is-black is-bold is-medium">
   <div class="hero-body">
     <div class="container">
-      <h1 class="title">{{subject}}</h1>
+      <h1 class="title">{{wiki.subject}}</h1>
       <h2 class="subtitle">From Wikipedia, the free encyclopedia</h2>
     </div>
   </div>
 </section>
 {% if version %}
   <div class="notification is-danger">
-  This is an old revision of this page, as edited by <a href="/#">{{last_contributor.name}}</a> at {{last_modified.strftime("%H:%M, %d %B %Y")}}. The present address (URL) is a permanent link to this revision, which may differ significantly from the <a href="{{path}}"><strong>current revision</strong></a>.
+  This is an old revision of this page, as edited by <a href="/#">{{wiki.last_contributor.name}}</a> at {{wiki.last_modified.strftime("%H:%M, %d %B %Y")}}. The present address (URL) is a permanent link to this revision, which may differ significantly from the <a href="{{wiki.url}}"><strong>current revision</strong></a>.
   </div>
 {% endif %}
 <section class="section">
@@ -20,9 +20,12 @@
       <div class="column is-two-thirds">
         <article class="section">
           <div class="content">
-            <p>{{content}}</p>
+            <p>{{wiki.content}}</p>
           </div>
         </article>
+        <footer>
+          <p></p>
+        </footer>
       </div>
       <div class="column">
         <div class="infobox">
