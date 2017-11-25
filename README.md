@@ -19,3 +19,4 @@ This is a wiki built with polymer and appengine.
 * Remeber Me Signup/Login
 * start.sh (do all work e.g. open a server)
 * Add instruction in README
+* service worker
