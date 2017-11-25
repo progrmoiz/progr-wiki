@@ -1,6 +1,6 @@
 # PROGR WIKI README #
 
-This is a wiki built with polymer and appengine.
+This is a wiki built with ~~polymer~~ and appengine.
 
 ### Contribution guidelines
 
