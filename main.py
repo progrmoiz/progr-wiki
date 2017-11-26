@@ -205,7 +205,7 @@ class Register(SignUp):
             # set cookie
             # and redirect to welcome
             self.login(u)
-            self.redirect('/' + self.redirect_to)
+            self.redirect(self.redirect_to)
 
 
 class Login(BaseHandler):
