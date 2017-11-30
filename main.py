@@ -332,10 +332,14 @@ class EditPage(BaseHandler):
 class HistoryPage(BaseHandler):
     def get(self, url):
         wiki = Wiki.by_path(url)
-        wiki_history = WikiHistory.by_path(wiki.url)
-        history = list(enumerate(wiki_history.history))
+        if (wiki):
+            wiki_history = WikiHistory.by_path(wiki.url)
+            history = list(enumerate(wiki_history.history))
 
-        self.render('history', subject=wiki.subject, history=reversed(history))
+            self.render('history', subject=wiki.subject,
+                        history=reversed(history))
+        else:
+            self.redirect('/_edit/' + url)
 
 
 class WikiPage(BaseHandler):
