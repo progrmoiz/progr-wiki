@@ -35,7 +35,11 @@ def render_str(template, **params):
 
 
 class BaseHandler(webapp2.RequestHandler):
+    """This is Base Handler class
 
+    Now our handler will extends this class and gets some additional
+    functionality and configuration
+    """
     def write(self, *a, **kw):
         self.response.write(*a, **kw)
 
