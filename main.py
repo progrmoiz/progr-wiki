@@ -40,18 +40,28 @@ class BaseHandler(webapp2.RequestHandler):
     Now our handler will extends this class and gets some additional
     functionality and configuration
     """
+
     def write(self, *a, **kw):
+        """It is simply going to write a response
+        """
         self.response.write(*a, **kw)
 
     def render_str(self, template, extension='.html', **params):
+        """Our helper render_str
+        """
         params['title'] = 'Progrwiki'
         params['user'] = self.user
         return render_str(template + extension, **params)
 
     def render(self, template, **kw):
+        """It is going to render a template and
+        write it as response
+        """
         self.write(self.render_str(template, extension='.html', **kw))
 
     def render_json(self, d):
+        """It is going to write a json response
+        """
         json_txt = json.dumps(d)
         self.response.content_type = 'application/json;charset=UTF-8'
         self.write(json_txt)
@@ -76,6 +86,8 @@ class BaseHandler(webapp2.RequestHandler):
         self.set_secure_cookie('user_id', str(user.key.id()))
 
     def logout(self):
+        """Remove the cookie, so user will logout
+        """
         self.response.set_cookie('user_id', '',
                                  path='/')
 
