@@ -49,6 +49,7 @@ class BaseHandler(webapp2.RequestHandler):
     def render_str(self, template, extension='.html', **params):
         """Our helper render_str
         """
+        # These params is going on every render
         params['title'] = 'Progrwiki'
         params['user'] = self.user
         return render_str(template + extension, **params)
