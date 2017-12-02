@@ -202,13 +202,6 @@ class Logout(BaseHandler):
         self.redirect('/' + path)
 
 
-"""
-def valid_path(path):
-    RE_PAGE = re.compile(r'^([a-zA-Z0-9()_-]+)*$')
-    return RE_PAGE.match(path)
-"""
-
-
 class EditPage(BaseHandler):
 
     def get(self, url):
