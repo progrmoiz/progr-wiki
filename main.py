@@ -354,23 +354,16 @@ class WikiPage(BaseHandler):
 
             # ?v=n
             # changing versions
+            print(len(wiki_history.history))
+            print(version)
             if version:
                 version = int(version)
-                if version > 0 and version <= len(wiki_history.history):
-                    version -= 1
-                    wiki = wiki_history.get_wiki(version)
+                if version >= len(wiki_history.history):
+                    version = False
+                elif version > 0 and version < len(wiki_history.history):
+                    wiki = wiki_history.get_wiki(version-1)
                 else:
                     print('not valid')
-
-            # print(wiki.last_contributor)
-            # print(wiki.contributors)
-            # TODO: remove this code
-            # subject = wiki.subject
-            # content = wiki.content
-            # path = wiki.url
-            # last_modified = wiki.last_modified
-            # last_contributor = wiki.last_contributor
-            # contributors = 'wiki.contributors'
 
             redirect = urllib.urlencode({PATHS['redirect']: wiki.url})
 
