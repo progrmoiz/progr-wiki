@@ -1,7 +1,4 @@
 import os
-import re
-import hmac
-import hashlib
 import json
 import time
 import urllib
@@ -16,6 +13,8 @@ from model.user import User
 from model.wiki import Wiki
 from model.wiki_history import WikiHistory
 
+from utils.secure import make_secure_val, check_secure_val
+from utils.validate import valid_username, valid_password, valid_email
 
 PATHS = {
     'redirect':  'redirect_to'
@@ -34,42 +33,36 @@ def render_str(template, **params):
     t = JINJA_ENV.get_template(template)
     return t.render(params)
 
-SECRET = b'progrmoiz'
-
-
-def make_secure_val(val):
-    """Create a secure sha256 + SECRET hash of val
-
-    Return: val|sha256_hash
-    """
-    h = hmac.new(SECRET, val.encode(), hashlib.sha256).hexdigest()
-    return '%s|%s' % (val, h)
-
-
-def check_secure_val(secure_val):
-    """Splits value and make a hash of it and check it against secure_val
-
-    secure_val="val|sha256_hash"
-    """
-    val = secure_val.split('|')[0]
-    if secure_val == make_secure_val(val):
-        return val
-
 
 class BaseHandler(webapp2.RequestHandler):
+    """This is Base Handler class
+
+    Now our handler will extends this class and gets some additional
+    functionality and configuration
+    """
 
     def write(self, *a, **kw):
+        """It is simply going to write a response
+        """
         self.response.write(*a, **kw)
 
     def render_str(self, template, extension='.html', **params):
+        """Our helper render_str
+        """
+        # These params is going on every render
         params['title'] = 'Progrwiki'
         params['user'] = self.user
         return render_str(template + extension, **params)
 
     def render(self, template, **kw):
+        """It is going to render a template and
+        write it as response
+        """
         self.write(self.render_str(template, extension='.html', **kw))
 
     def render_json(self, d):
+        """It is going to write a json response
+        """
         json_txt = json.dumps(d)
         self.response.content_type = 'application/json;charset=UTF-8'
         self.write(json_txt)
@@ -94,6 +87,8 @@ class BaseHandler(webapp2.RequestHandler):
         self.set_secure_cookie('user_id', str(user.key.id()))
 
     def logout(self):
+        """Remove the cookie, so user will logout
+        """
         self.response.set_cookie('user_id', '',
                                  path='/')
 
@@ -106,39 +101,10 @@ class BaseHandler(webapp2.RequestHandler):
         # if url ends with .json set selfat to json else html
 
 
-def generate():
-    a = ['progrmoiz', 'alexsmith', 'uniquesamad', 'demo']
-    for username in a:
-        u = User.by_name(username)
-        if not u:
-            u = User.register(username, username,
-                              '%s@progrwiki.com' % username)
-            u.put()
-
-
 class MainPage(BaseHandler):
 
     def get(self):
-        generate()
-        print("HELLO")
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.write(self.user)
-
-
-def valid_username(name):
-    USER_RE = re.compile(r'^[a-zA-Z0-9_-]{3,20}$')
-    return name and USER_RE.match(name)
-
-
-def valid_password(password):
-    PASSWORD_RE = re.compile(r'^.{6,20}$')
-    return password and PASSWORD_RE.match(password)
-
-
-def valid_email(email):
-    EMAIL_RE = re.compile(
-        r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)')
-    return not email or EMAIL_RE.match(email)
+        self.render('main')
 
 
 class SignUp(BaseHandler):
@@ -238,13 +204,6 @@ class Logout(BaseHandler):
         self.logout()
         path = self.request.get('redirect_to')
         self.redirect('/' + path)
-
-
-"""
-def valid_path(path):
-    RE_PAGE = re.compile(r'^([a-zA-Z0-9()_-]+)*$')
-    return RE_PAGE.match(path)
-"""
 
 
 class EditPage(BaseHandler):
@@ -354,23 +313,16 @@ class WikiPage(BaseHandler):
 
             # ?v=n
             # changing versions
+            print(len(wiki_history.history))
+            print(version)
             if version:
                 version = int(version)
-                if version > 0 and version <= len(wiki_history.history):
-                    version -= 1
-                    wiki = wiki_history.get_wiki(version)
+                if version >= len(wiki_history.history):
+                    version = False
+                elif version > 0 and version < len(wiki_history.history):
+                    wiki = wiki_history.get_wiki(version-1)
                 else:
                     print('not valid')
-
-            # print(wiki.last_contributor)
-            # print(wiki.contributors)
-            # TODO: remove this code
-            # subject = wiki.subject
-            # content = wiki.content
-            # path = wiki.url
-            # last_modified = wiki.last_modified
-            # last_contributor = wiki.last_contributor
-            # contributors = 'wiki.contributors'
 
             redirect = urllib.urlencode({PATHS['redirect']: wiki.url})
 
