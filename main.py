@@ -114,10 +114,7 @@ def generate():
 class MainPage(BaseHandler):
 
     def get(self):
-        generate()
-        print("HELLO")
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.write(self.user)
+        self.render('main')
 
 
 class SignUp(BaseHandler):
